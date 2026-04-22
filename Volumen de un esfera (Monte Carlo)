@@ -1,0 +1,34 @@
+import random
+
+def aproximar_volumen_esfera(radio, n_dardos=1000000):
+    dentro_dela_esfera= 0
+
+    # El cubo que encierra a la esfera va de -radio a +radio en X, Y e Z
+    for _ in range(n_dardos):
+        # Generar coordenadas (x, y) aleatorias dentro del cuadrado
+        x = random.uniform(-radio, radio)
+        y = random.uniform(-radio, radio)
+        z = random.uniform(-radio, radio)
+        # Verificar si el punto está dentro de la esfera usando: x² + y²+ z² <= r²
+        if x**2 + y**2 + z**2 <= radio**2:
+            dentro_dela_esfera += 1
+
+    # El volumen del cubo es (2 * radio) * (2 * radio)* (2 * radio) = 8 * radio**3
+    volumen_cubo = (2 * radio)**3
+
+    # El volumen de la esfera es la proporción de puntos dentro multiplicada por el área del cuadrado
+    volumen_aproximado = (dentro_dela_esfera / n_dardos) * volumen_cubo
+    return volumen_aproximado
+
+# Configuración
+r = 5
+intentos = 1000000
+volumen_real =(4/3) * 3.141592653589793 * (r**3)
+
+print(f"Simulando {intentos} lanzamientos para un radio de {r}...")
+volumen_simulado = aproximar_volumen_esfera(r, intentos)
+
+print(f"Volumen aproximado: {volumen_simulado:.5f}")
+print(f"Volumen real ((4/3)*pi*r**3): {volumen_real:.5f}")
+print(f"Error: {abs(volumen_real - volumen_simulado):.5f}")
+
