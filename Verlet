@@ -1,0 +1,28 @@
+verlet [a_, x0_, v0_, dt_, Ns_] :=Module[{xout, xnext, xcur, xprev, t, index},
+  xout = Table[0.0, {j, 1, Ns}];
+  xcur = x0;
+  xprev =x0 - dt v0 + (1/2) a[x0,0.0] dt^2;
+  t = 0.0;
+  xout[[1]] = {t, x0};
+  For[index = 2, index <= Ns, index = index + 1,
+   xnext = 2.0 xcur - xprev + dt^2 a[xcur, t];
+   t = t + dt;
+   xout[[index]] = {t, xnext};
+   xprev = xcur;
+   xcur = xnext;
+  ];
+  Return[xout];
+]
+a[x_, t_] := -x;
+
+resultados = verlet[a, 2, 2, 0.1,100];
+Print["Prueba"];
+Print[resultados];
+
+grafica = ListLinePlot[
+   resultados[[All,2]],
+   AspectRatio -> 1,
+   PlotStyle -> Blue
+];
+
+Export["mas.png", grafica]
