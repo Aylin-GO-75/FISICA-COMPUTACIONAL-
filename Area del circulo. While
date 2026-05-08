@@ -1,0 +1,38 @@
+import random
+def aproximar_area_circulo(radio, n_dardos=1000000):
+    dentro_del_circulo = 0
+    i = 0
+
+    # El cuadrado que encierra al círculo va de -radio a +radio en X e Y
+    while i < n_dardos:
+        # Generar coordenadas (x, y) aleatorias dentro del cuadrado
+        x = random.uniform(-radio, radio)
+        y = random.uniform(-radio, radio)
+
+        # Verificar si el punto está dentro del círculo usando Pitágoras: x² + y² <= r²
+        if x**2 + y**2 <= radio**2:
+            dentro_del_circulo += 1
+
+        i += 1
+
+    # El área del cuadrado es (2 * radio) * (2 * radio) = 4 * radio²
+    area_cuadrado = (2 * radio) ** 2
+
+    # El área del círculo es la proporción de puntos dentro multiplicada por el área del cuadrado
+    area_aproximada = (dentro_del_circulo / n_dardos) * area_cuadrado
+
+    return area_aproximada
+
+
+# Configuración
+r = 5
+
+intentos = 1000000
+area_real = 3.141592653589793 * (r**2)
+
+print(f"Simulando {intentos} lanzamientos para un radio de {r}...")
+area_simulada = aproximar_area_circulo(r, intentos)
+
+print(f"Área aproximada: {area_simulada:.5f}")
+print(f"Área real (pi*r²): {area_real:.5f}")
+print(f"Error: {abs(area_real - area_simulada):.5f}")
